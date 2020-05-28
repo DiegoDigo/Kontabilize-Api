@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontabilize.Domain", "Kontabilize.Domain\Kontabilize.Domain.csproj", "{7276BD28-1068-4B6A-9E6D-8CF69E210926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontabilize.Shared", "Kontabilize.Shared\Kontabilize.Shared.csproj", "{5866EA63-21BC-4975-A0F5-A38BE5065667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontabilize.Infra", "Kontabilize.Infra\Kontabilize.Infra.csproj", "{CE1F7570-F64B-4B56-AA87-E9DC2C1BA9AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kontabilize.Api", "Kontabilize.Api\Kontabilize.Api.csproj", "{F4156BE3-86BF-4488-A358-ED25162A9F0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7276BD28-1068-4B6A-9E6D-8CF69E210926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7276BD28-1068-4B6A-9E6D-8CF69E210926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7276BD28-1068-4B6A-9E6D-8CF69E210926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7276BD28-1068-4B6A-9E6D-8CF69E210926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5866EA63-21BC-4975-A0F5-A38BE5065667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5866EA63-21BC-4975-A0F5-A38BE5065667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5866EA63-21BC-4975-A0F5-A38BE5065667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5866EA63-21BC-4975-A0F5-A38BE5065667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1F7570-F64B-4B56-AA87-E9DC2C1BA9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1F7570-F64B-4B56-AA87-E9DC2C1BA9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1F7570-F64B-4B56-AA87-E9DC2C1BA9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1F7570-F64B-4B56-AA87-E9DC2C1BA9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4156BE3-86BF-4488-A358-ED25162A9F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4156BE3-86BF-4488-A358-ED25162A9F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4156BE3-86BF-4488-A358-ED25162A9F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4156BE3-86BF-4488-A358-ED25162A9F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
