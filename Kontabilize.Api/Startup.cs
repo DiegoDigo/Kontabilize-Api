@@ -1,6 +1,7 @@
 using Kontabilize.Api.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,15 +17,29 @@ namespace Kontabilize.Api
             services.AddDependencyApiVersion();
             services.AddDependencyHandler();
             services.AddDependencyService();
+            services.AddDependenceJwtAuthentication();
+            services.AddDependenceSwagger();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                foreach (var item in provider.ApiVersionDescriptions)
+                {
+                    c.SwaggerEndpoint($"/swagger/{item.GroupName}/swagger.json", item.GroupName);
+                }
+
+                c.RoutePrefix = string.Empty;
+            });
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

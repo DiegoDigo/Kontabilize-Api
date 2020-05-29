@@ -8,6 +8,7 @@ namespace Kontabilize.Api.Configurations
         public static IServiceCollection AddDependencyHandler(this IServiceCollection services)
         {
             services.AddScoped<UserHandler, UserHandler>();
+            services.AddScoped<ProfileHandler, ProfileHandler>();
             return services;
         }
     }

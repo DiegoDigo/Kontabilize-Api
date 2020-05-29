@@ -9,6 +9,7 @@ namespace Kontabilize.Api.Configurations
         public static IServiceCollection AddDependencyService(this IServiceCollection services)
         {
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IUploadService, UploadService>();
             return services;
         }
     }

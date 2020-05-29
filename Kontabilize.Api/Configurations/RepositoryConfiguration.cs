@@ -12,6 +12,8 @@ namespace Kontabilize.Api.Configurations
             services.AddScoped<KontabilizeContext, KontabilizeContext>();
             
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IProfileRepository, ProfileRepository>();
+            services.AddTransient<IAddressRepository, AddressRepository>();
 
             return services;
         } 

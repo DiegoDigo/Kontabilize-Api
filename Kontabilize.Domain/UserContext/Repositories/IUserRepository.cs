@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Kontabilize.Domain.UserContext.Entities;
 
@@ -8,5 +9,6 @@ namespace Kontabilize.Domain.UserContext.Repositories
         Task Save(User user);
         Task<User> FindByEmail(string email);
         Task<bool> ExistEmail(string email);
+        Task<User> GetUserById(Guid id);
     }
 }

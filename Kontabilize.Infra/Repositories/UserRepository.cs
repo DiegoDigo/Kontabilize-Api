@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kontabilize.Domain.UserContext.Entities;
@@ -23,9 +24,14 @@ namespace Kontabilize.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> FindByEmail(string email) => await _context.Users.Where(UserQuery.FindByEmail(email))
+        public async Task<User> GetUserById(Guid id) =>
+            await _context.Users.Where(UserQuery.FindById(id)).AsNoTracking().SingleOrDefaultAsync();
+
+        public async Task<User> FindByEmail(string email) => 
+            await _context.Users.Where(UserQuery.FindByEmail(email))
             .AsNoTracking().SingleOrDefaultAsync();
 
-        public async Task<bool> ExistEmail(string email) => await _context.Users.AnyAsync(UserQuery.FindByEmail(email));
+        public async Task<bool> ExistEmail(string email) =>
+            await _context.Users.AnyAsync(UserQuery.FindByEmail(email));
     }
 }
