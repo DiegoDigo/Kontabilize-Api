@@ -1,3 +1,4 @@
+using Kontabilize.Domain.CompanyContext.Handlers;
 using Kontabilize.Domain.UserContext.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,7 @@ namespace Kontabilize.Api.Configurations
         {
             services.AddScoped<UserHandler, UserHandler>();
             services.AddScoped<ProfileHandler, ProfileHandler>();
+            services.AddScoped<CompanyHandler, CompanyHandler>();
             return services;
         }
     }

@@ -12,6 +12,7 @@ namespace Kontabilize.Api
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDependencyRepository();
             services.AddControllers();
             services.AddDependencyApiVersion();
@@ -41,6 +42,12 @@ namespace Kontabilize.Api
             });
             
             app.UseRouting();
+            
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
             app.UseAuthorization();
 

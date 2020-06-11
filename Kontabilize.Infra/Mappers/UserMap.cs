@@ -8,7 +8,7 @@ namespace Kontabilize.Infra.Mappers
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("Users");
             builder.HasKey(x => x.Id);
             builder.OwnsOne(x => x.Email, email => {
                 email.Property(x => x.Address).IsRequired().HasColumnName("Email").HasColumnType("varchar(160)");

@@ -1,3 +1,4 @@
+using Kontabilize.Domain.CompanyContext.Repositories;
 using Kontabilize.Domain.UserContext.Repositories;
 using Kontabilize.Infra.Context;
 using Kontabilize.Infra.Repositories;
@@ -14,6 +15,7 @@ namespace Kontabilize.Api.Configurations
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProfileRepository, ProfileRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<ICompanyRepository, CompanyRepository>();
 
             return services;
         } 
