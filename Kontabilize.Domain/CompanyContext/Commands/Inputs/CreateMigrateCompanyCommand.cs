@@ -21,13 +21,13 @@ namespace Kontabilize.Domain.CompanyContext.Commands.Inputs
                 new ValidationContract()
                     .Requires()
                     .IsEmail(Email,"Email","Invalid email.")
-                    .IsNullOrEmpty(FirstName, "First Name", "First name is required.")
+                    .IsNotNullOrEmpty(FirstName, "First Name", "First name is required.")
                     .IsNotNullOrEmpty(LastName, "Last Name", "Last name is required.")
-                    .IsNullOrEmpty(Cnpj, "Cnpj", "Cnpj is required.")
+                    .IsNotNullOrEmpty(Cnpj, "Cnpj", "Cnpj is required.")
                     .HasLen(Cnpj, 14,"Cnpj", "Cnpj must be 11 characters")
                     .HasLen(FixPhone, 10, "Fix Phone", "Fix Phone must be 8 characters plus the DDD.")
                     .HasLen(MobilePhone, 11, "Fix Phone", "Fix Phone must be 9 characters plus the DDD.")
-                    .IsNullOrEmpty(CompanyTracking, "Company Tracking", "Company Tracking is required."));
+                    .IsNotNullOrEmpty(CompanyTracking, "Company Tracking", "Company Tracking is required."));
             return Valid;
         }
     }
