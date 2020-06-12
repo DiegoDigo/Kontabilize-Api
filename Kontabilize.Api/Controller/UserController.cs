@@ -35,5 +35,14 @@ namespace Kontabilize.Api.Controller
             var response = await _userHandler.Handler(command);
             return response.Success ? StatusCode(201, response) : StatusCode(406, response);
         }
+        
+        [HttpPost("reset")]
+        [ApiVersion("1.0")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Reset([FromBody] ResetPasswordCommand command)
+        {
+            var response = await _userHandler.Handler(command);
+            return response.Success ? StatusCode(200, response) : StatusCode(406, response);
+        }
     }
 }

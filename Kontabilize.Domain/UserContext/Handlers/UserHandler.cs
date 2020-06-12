@@ -12,7 +12,10 @@ using Kontabilize.Shared.VOs;
 
 namespace Kontabilize.Domain.UserContext.Handlers
 {
-    public class UserHandler : Notifiable, IHandler<SignInCommand>, IHandler<SignUpCommand>
+    public class UserHandler : Notifiable,
+        IHandler<SignInCommand>,
+        IHandler<SignUpCommand>,
+        IHandler<ResetPasswordCommand>
     {
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
@@ -68,6 +71,24 @@ namespace Kontabilize.Domain.UserContext.Handlers
             await _userRepository.Save(user);
 
             return new CommandResult(true, "Login successfully", user);
+        }
+
+        public async Task<CommandResult> Handler(ResetPasswordCommand command)
+        {
+            if (command.Invalid)
+            {
+                return new CommandResult(false, "Error to find user", command.Notifications);
+            }
+
+            var user = await _userRepository.FindByEmail(command.Email);
+            if (user == null)
+            {
+                AddNotification("User", "user not found.");
+                return new CommandResult(false, "Error to find user", command.Notifications);
+            }
+
+
+            return new CommandResult(true, "Generety token.", new ResetPasswordCommandResponse(user.Id.ToString(), ""));
         }
     }
 }
