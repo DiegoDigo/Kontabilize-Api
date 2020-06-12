@@ -30,7 +30,7 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> CreateNewCompany([FromBody] CreateNewCompanyCommand command)
         {
             var result = await _companyHandler.Handler(command);
-            return StatusCode(!result.Success ? 406 : 201, result);
+            return result.Success ? Ok(result) : StatusCode(406, result);
         }
 
         [HttpGet("new")]
@@ -41,7 +41,12 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> GetAllNewCompany()
         {
             var result = await _companyService.GetAllNewCompany();
-            return !result.Success ? StatusCode(204, result) : Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
         }
 
         [HttpGet("new/cpf/{cpf}")]
@@ -52,7 +57,12 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> GetNewCompanyByCpf(string cpf)
         {
             var result = await _companyService.GetNewCompanyByCpf(cpf);
-            return !result.Success ? StatusCode(204, result) : Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
         }
 
         [HttpGet("new/email/{email}")]
@@ -63,7 +73,12 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> GetNewCompanyByEmail(string email)
         {
             var result = await _companyService.GetNewCompanyByEmail(email);
-            return !result.Success ? StatusCode(204, result) : Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
         }
 
         [HttpPost("migration")]
@@ -74,7 +89,7 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> MigrateNewCompany([FromBody] CreateMigrateCompanyCommand command)
         {
             var result = await _companyHandler.Handler(command);
-            return StatusCode(!result.Success ? 406 : 201, result);
+            return result.Success ? Ok(result) : StatusCode(406, result);
         }
 
         [HttpGet("migration")]
@@ -108,7 +123,6 @@ namespace Kontabilize.Api.Controller
         {
             var result = await _companyService.GetMigrateCompanyByEmail(email);
             return result.Success ? Ok(result) : StatusCode(204, result);
-           
         }
 
         // [HttpGet("user/{id:Guid}")]

@@ -1,10 +1,7 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kontabilize.Domain.CompanyContext.Commands.Output;
 using Kontabilize.Domain.CompanyContext.Repositories;
-using Kontabilize.Domain.UserContext.Entities;
-using Kontabilize.Domain.UserContext.Entities.Enums;
 using Kontabilize.Shared.Command;
 using Kontabilize.Shared.VOs;
 
@@ -49,7 +46,7 @@ namespace Kontabilize.Domain.CompanyContext.Services
 
             if (company == null)
             {
-                return new CommandResult(true, "not found.", null);
+                return new CommandResult(false, "not found.", null);
             }
 
 
@@ -73,7 +70,7 @@ namespace Kontabilize.Domain.CompanyContext.Services
             var company = await _companyRepository.GetCompanyByEmail(email);
             if (company == null)
             {
-                return new CommandResult(true, "not found.", null);
+                return new CommandResult(false, "not found.", null);
             }
 
             var result = new NewCompanyCommandResponse(
@@ -119,7 +116,7 @@ namespace Kontabilize.Domain.CompanyContext.Services
 
             if (company == null)
             {
-                return new CommandResult(true, "not found.", null);
+                return new CommandResult(false, "not found.", null);
             }
 
 
@@ -143,7 +140,7 @@ namespace Kontabilize.Domain.CompanyContext.Services
             var company = await _companyRepository.GetCompanyByEmail(email);
             if (company == null)
             {
-                return new CommandResult(true, "not found.", null);
+                return new CommandResult(false, "not found.", null);
             }
 
             var result = new MigrateCompanyCommandResponse(
