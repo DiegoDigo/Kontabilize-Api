@@ -15,8 +15,10 @@ namespace Kontabilize.Domain.CompanyContext.Repositories
         Task<Company> GetCompanyByCpf(string cpf);
         Task<Company> GetCompanyByCnpj(string cnpj);
         Task<Company> GetCompanyByEmail(string email);
-        Task<ICollection<Company>> GetAllNewCompany();
-        Task<ICollection<Company>> GetAllMigrationCompany();
+        Task<ICollection<Company>> GetAllNewCompany(int pageNumber, int pageSize);
+        Task<ICollection<Company>> GetAllMigrationCompany(int pageNumber, int pageSize);
         Task Update(Company company);
+        Task<int> CountMigration();
+        Task<int> CountNew();
     }
 }

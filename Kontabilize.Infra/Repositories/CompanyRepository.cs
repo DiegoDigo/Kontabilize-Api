@@ -28,11 +28,21 @@ namespace Kontabilize.Infra.Repositories
         public async Task<bool> ExistEmail(string email) =>
             await _context.Companies.AsNoTracking().AnyAsync(CompanyQuery.FindByEmail(email));
 
-        public async Task<ICollection<Company>> GetAllNewCompany() => await _context.Companies
-            .Where(CompanyQuery.GetAllNewCompany()).AsNoTracking().ToListAsync();
+        public async Task<ICollection<Company>> GetAllNewCompany(int pageNumber, int pageSize) => await _context
+            .Companies
+            .Where(CompanyQuery.GetAllNewCompany())
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync();
 
-        public async Task<ICollection<Company>> GetAllMigrationCompany() => await _context.Companies
-            .Where(CompanyQuery.GetAllMigrationsCompany()).AsNoTracking().ToListAsync();
+        public async Task<ICollection<Company>> GetAllMigrationCompany(int pageNumber, int pageSize) =>
+            await _context.Companies
+                .Where(CompanyQuery.GetAllMigrationsCompany())
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
 
         public async Task Save(Company company)
         {
@@ -57,6 +67,16 @@ namespace Kontabilize.Infra.Repositories
         {
             _context.Companies.Update(company);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> CountMigration()
+        {
+            return await _context.Companies.Where(CompanyQuery.GetAllMigrationsCompany()).CountAsync();
+        }
+
+        public async Task<int> CountNew()
+        {
+            return await _context.Companies.Where(CompanyQuery.GetAllNewCompany()).CountAsync();
         }
     }
 }

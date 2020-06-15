@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+using Kontabilize.Api.Params;
 using Kontabilize.Domain.CompanyContext.Commands.Inputs;
 using Kontabilize.Domain.CompanyContext.Handlers;
 using Kontabilize.Domain.CompanyContext.Services;
@@ -38,9 +39,9 @@ namespace Kontabilize.Api.Controller
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [Authorize(Roles = "ACCOUNTANT,ADMIN")]
-        public async Task<IActionResult> GetAllNewCompany()
+        public async Task<IActionResult> GetAllNewCompany([FromQuery] PageableParam param)
         {
-            var result = await _companyService.GetAllNewCompany();
+            var result = await _companyService.GetAllNewCompany(param.PageNumber, param.PageSize);
             if (result.Success)
             {
                 return Ok(result);
@@ -97,9 +98,9 @@ namespace Kontabilize.Api.Controller
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [Authorize(Roles = "ACCOUNTANT,ADMIN")]
-        public async Task<IActionResult> GetAllMigrationCompany()
+        public async Task<IActionResult> GetAllMigrationCompany([FromQuery] PageableParam param)
         {
-            var result = await _companyService.GetAllMigrationsCompany();
+            var result = await _companyService.GetAllMigrationsCompany(param.PageNumber, param.PageSize);
             return !result.Success ? StatusCode(204, result) : Ok(result);
         }
 
