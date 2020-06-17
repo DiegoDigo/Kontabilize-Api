@@ -20,5 +20,6 @@ namespace Kontabilize.Domain.CompanyContext.Repositories
         Task Update(Company company);
         Task<int> CountMigration();
         Task<int> CountNew();
+        Task DeleteCompany(Company company);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kontabilize.Domain.CompanyContext.Commands.Output;
@@ -165,7 +166,19 @@ namespace Kontabilize.Domain.CompanyContext.Services
 
             return new CommandResult(true, "migrate company", result);
         }
-        
+
+
+        public async Task<bool> DeleteCompany(Guid id)
+        {
+            var company = await _companyRepository.GetById(id);
+            if (company == null)
+            {
+                return false;
+            }
+            await _companyRepository.DeleteCompany(company);
+            return true;
+
+        }
         
         // public async Task<bool> CreateUserByCompany(Guid id)
         // {

@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Kontabilize.Api.Params;
@@ -11,7 +12,7 @@ namespace Kontabilize.Api.Controller
 {
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ACCOUNTANT,ADMIN")]
     public class CompanyController : ControllerBase
     {
         private readonly CompanyHandler _companyHandler;
@@ -38,7 +39,6 @@ namespace Kontabilize.Api.Controller
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        [Authorize(Roles = "ACCOUNTANT,ADMIN")]
         public async Task<IActionResult> GetAllNewCompany([FromQuery] PageableParam param)
         {
             var result = await _companyService.GetAllNewCompany(param.PageNumber, param.PageSize);
@@ -49,7 +49,22 @@ namespace Kontabilize.Api.Controller
 
             return NoContent();
         }
+        
+        [HttpDelete("{id:Guid}")]
+        [ApiVersion("1.0")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        public async Task<IActionResult> DeleteCompany(Guid id)
+        {
+            var result = await _companyService.DeleteCompany(id);
+            if (result)
+            {
+                return Accepted();
+            }
 
+            return NoContent();
+        }
+        
         [HttpGet("new/cpf/{cpf}")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
@@ -97,7 +112,6 @@ namespace Kontabilize.Api.Controller
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        [Authorize(Roles = "ACCOUNTANT,ADMIN")]
         public async Task<IActionResult> GetAllMigrationCompany([FromQuery] PageableParam param)
         {
             var result = await _companyService.GetAllMigrationsCompany(param.PageNumber, param.PageSize);

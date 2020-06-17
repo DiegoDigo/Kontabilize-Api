@@ -78,5 +78,12 @@ namespace Kontabilize.Infra.Repositories
         {
             return await _context.Companies.Where(CompanyQuery.GetAllNewCompany()).CountAsync();
         }
+
+        public async Task DeleteCompany(Company company)
+        {
+            _context.Companies.Remove(company);
+            await _context.SaveChangesAsync();
+        }
+        
     }
 }
