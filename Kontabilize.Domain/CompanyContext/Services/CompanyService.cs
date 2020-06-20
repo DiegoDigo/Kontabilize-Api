@@ -212,5 +212,33 @@ namespace Kontabilize.Domain.CompanyContext.Services
             return string.IsNullOrEmpty(document.Cpf) ? document.Cnpj : document.Cpf;
         }
 
+        
+        public async Task<CommandResult> GetAll(int pageNumber, int pageSize)
+        {
+            var companies =  await _companyRepository.GetAll(pageNumber, pageSize);
+            
+            if (!companies.Any())
+            {
+                return new CommandResult(false, "not found", null);
+            }
+            
+            var result = companies.Select(company => new CompaniesCommandResponse(
+                company.Id.ToString(),
+                company.Document.Cnpj,
+                company.Document.Cpf,
+                company.Email.Address,
+                company.Name.GetFullName(),
+                company.Phone.FixNumber,
+                company.Phone.MobileNumber,
+                company.CompanyTracking,
+                company.CreateAt
+            )).ToList();
+
+            var totalCompanies = await _companyRepository.Count();
+            var response = new PagedList<CompaniesCommandResponse>(result, totalCompanies, pageNumber, pageSize);
+
+            return new CommandResult(true, "migrated companies", response);
+
+        }
     }
 }

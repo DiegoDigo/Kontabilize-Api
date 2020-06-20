@@ -7,9 +7,15 @@ namespace Kontabilize.Domain.CompanyContext.Queries
 {
     public static class CompanyQuery
     {
+        public static Expression<Func<Company, bool>> GetAll()
+        {
+            return x => x.Actived;
+        }
+
         public static Expression<Func<Company, bool>> FindByEmail(string email)
         {
-            return x => x.Email.Address == email && (x.TypeCompany == ETypeCompany.NewCompany || x.TypeCompany == ETypeCompany.MigrateCompany);
+            return x => x.Email.Address == email &&
+                        (x.TypeCompany == ETypeCompany.NewCompany || x.TypeCompany == ETypeCompany.MigrateCompany);
         }
 
         public static Expression<Func<Company, bool>> FindByCpf(string cpf)
@@ -24,14 +30,14 @@ namespace Kontabilize.Domain.CompanyContext.Queries
 
         public static Expression<Func<Company, bool>> GetAllNewCompany()
         {
-            return x => x.TypeCompany == ETypeCompany.NewCompany;
+            return x => x.TypeCompany == ETypeCompany.NewCompany && x.Actived == false;
         }
 
         public static Expression<Func<Company, bool>> GetAllMigrationsCompany()
         {
-            return x => x.TypeCompany == ETypeCompany.MigrateCompany;
+            return x => x.TypeCompany == ETypeCompany.MigrateCompany && x.Actived == false;
         }
-        
+
         public static Expression<Func<Company, bool>> FindById(Guid id)
         {
             return x => x.Id == id;

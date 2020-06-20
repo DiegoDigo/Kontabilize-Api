@@ -9,12 +9,14 @@ namespace Kontabilize.Api
 {
     public class Startup
     {
-        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
             services.AddDependencyRepository();
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
             services.AddDependencyApiVersion();
             services.AddDependencyHandler();
             services.AddDependencyService();
@@ -40,9 +42,9 @@ namespace Kontabilize.Api
 
                 c.RoutePrefix = string.Empty;
             });
-            
+
             app.UseRouting();
-            
+
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -51,10 +53,7 @@ namespace Kontabilize.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

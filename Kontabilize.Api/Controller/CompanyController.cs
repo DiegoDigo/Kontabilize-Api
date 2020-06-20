@@ -24,6 +24,22 @@ namespace Kontabilize.Api.Controller
             _companyService = companyService;
         }
 
+        [HttpGet]
+        [ApiVersion("1.0")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        public async Task<IActionResult> GetAll([FromQuery] PageableParam param)
+        {
+            var result = await _companyService.GetAll(param.PageNumber, param.PageSize);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return NoContent();
+        }
+        
+        
         [HttpPost("new")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.Created)]

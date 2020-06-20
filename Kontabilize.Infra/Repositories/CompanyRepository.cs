@@ -44,6 +44,15 @@ namespace Kontabilize.Infra.Repositories
                 .AsNoTracking()
                 .ToListAsync();
 
+        
+        public async Task<ICollection<Company>> GetAll(int pageNumber, int pageSize) =>
+            await _context.Companies
+                .Where(CompanyQuery.GetAll())
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
         public async Task Save(Company company)
         {
             await _context.Companies.AddAsync(company);
@@ -77,6 +86,11 @@ namespace Kontabilize.Infra.Repositories
         public async Task<int> CountNew()
         {
             return await _context.Companies.Where(CompanyQuery.GetAllNewCompany()).CountAsync();
+        }
+        
+        public async Task<int> Count()
+        {
+            return await _context.Companies.Where(CompanyQuery.GetAll()).CountAsync();
         }
 
         public async Task DeleteCompany(Company company)

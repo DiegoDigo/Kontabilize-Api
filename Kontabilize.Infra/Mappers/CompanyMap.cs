@@ -35,6 +35,7 @@ namespace Kontabilize.Infra.Mappers
             });
 
             builder.Property(x => x.TypeCompany).HasConversion<string>();
+            builder.Property(x => x.Actived).IsRequired().HasColumnType("boolean");
         }
     }
 }

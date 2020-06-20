@@ -21,5 +21,7 @@ namespace Kontabilize.Domain.CompanyContext.Repositories
         Task<int> CountMigration();
         Task<int> CountNew();
         Task DeleteCompany(Company company);
+        Task<int> Count();
+        Task<ICollection<Company>> GetAll(int pageNumber, int pageSize);
     }
 }

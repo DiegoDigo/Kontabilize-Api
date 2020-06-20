@@ -15,6 +15,8 @@ namespace Kontabilize.Domain.CompanyContext.Entities
         public string CompanyTracking { get; private set; }
         public ETypeCompany TypeCompany { get; private set; }
 
+        public bool Actived { get; private set; }
+        
         public Company()
         {
         }
@@ -29,6 +31,13 @@ namespace Kontabilize.Domain.CompanyContext.Entities
             CompanyTracking = companyTracking;
             TypeCompany = typeCompany;
             CreateAt = DateTime.Now;
+            Actived = false;
+        }
+
+
+        public void Active()
+        {
+            Actived = true;
         }
     }
 }
