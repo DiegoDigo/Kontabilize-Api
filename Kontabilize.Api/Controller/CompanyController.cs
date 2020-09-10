@@ -12,13 +12,13 @@ namespace Kontabilize.Api.Controller
 {
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiController]
-    [Authorize(Roles = "ACCOUNTANT,ADMIN")]
+    [Authorize(Roles = "Accountant,Admin")]
     public class CompanyController : ControllerBase
     {
         private readonly CompanyHandler _companyHandler;
-        private readonly CompanyService _companyService;
+        private readonly ICompanyService _companyService;
 
-        public CompanyController(CompanyHandler companyHandler, CompanyService companyService)
+        public CompanyController(CompanyHandler companyHandler, ICompanyService companyService)
         {
             _companyHandler = companyHandler;
             _companyService = companyService;
@@ -113,7 +113,7 @@ namespace Kontabilize.Api.Controller
             return NoContent();
         }
 
-        [HttpPost("migration")]
+        [HttpPost("migrate")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -124,7 +124,7 @@ namespace Kontabilize.Api.Controller
             return result.Success ? Ok(result) : StatusCode(406, result);
         }
 
-        [HttpGet("migration")]
+        [HttpGet("migrate")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
@@ -134,7 +134,7 @@ namespace Kontabilize.Api.Controller
             return !result.Success ? StatusCode(204, result) : Ok(result);
         }
 
-        [HttpGet("migration/cnpj/{cnpj}")]
+        [HttpGet("migrate/cnpj/{cnpj}")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
@@ -145,7 +145,7 @@ namespace Kontabilize.Api.Controller
             return result.Success ? Ok(result) : StatusCode(204, result);
         }
 
-        [HttpGet("migration/email/{email}")]
+        [HttpGet("migrate/email/{email}")]
         [ApiVersion("1.0")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
@@ -155,21 +155,6 @@ namespace Kontabilize.Api.Controller
             var result = await _companyService.GetMigrateCompanyByEmail(email);
             return result.Success ? Ok(result) : StatusCode(204, result);
         }
-
-        // [HttpGet("user/{id:Guid}")]
-        // [ApiVersion("1.0")]
-        // [ProducesResponseType((int) HttpStatusCode.Created)]
-        // [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        // [Authorize(Roles = "ACCOUNTANT,ADMIN")]
-        // public async Task<IActionResult> CreateUserByCompany(Guid id)
-        // {
-        //     var created = await _companyHandler.CreateUserByCompany(id);
-        //     if (!created)
-        //     {
-        //         return NoContent();
-        //     }
-        //
-        //     return StatusCode(201);
-        // }
+        
     }
 }

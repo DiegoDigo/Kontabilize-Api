@@ -1,4 +1,5 @@
 using System.Text;
+using Kontabilize.Shared.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +22,7 @@ namespace Kontabilize.Api.Configurations
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes("ofgh/Cw_+.b$VyFyNZ12Wu%fsbYd@w")),
+                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Constants.Secrect)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };

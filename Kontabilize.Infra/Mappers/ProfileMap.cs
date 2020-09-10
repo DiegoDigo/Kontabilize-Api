@@ -24,6 +24,7 @@ namespace Kontabilize.Infra.Mappers
                 email =>
                 {
                     email.Property(x => x.Address).HasColumnName("Email").HasColumnType("varchar(160)").IsRequired();
+                    email.HasIndex(x => x.Address);
                 });
             builder.OwnsOne(x => x.Phone, phone =>
             {

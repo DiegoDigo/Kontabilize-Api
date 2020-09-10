@@ -12,11 +12,12 @@ namespace Kontabilize.Infra.Mappers
             builder.HasKey(x => x.Id);
             builder.OwnsOne(x => x.Email, email => {
                 email.Property(x => x.Address).IsRequired().HasColumnName("Email").HasColumnType("varchar(160)");
+                email.HasIndex(x => x.Address);
             });
             builder.Property(x => x.Password).IsRequired().HasColumnType("varchar(60)");
             builder.Property(x => x.CreateAt).IsRequired().HasColumnType("timestamp");
             builder.Property(x => x.Active).IsRequired().HasColumnType("boolean");
-            builder.Property(x => x.Role).HasConversion<string>();
+            builder.Property(x => x.Role).HasConversion<int>();
         }
     }
 }

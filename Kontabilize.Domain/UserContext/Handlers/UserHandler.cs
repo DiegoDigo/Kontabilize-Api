@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using FluentValidator;
 using Kontabilize.Domain.UserContext.Command.Input;
 using Kontabilize.Domain.UserContext.Command.Output;
 using Kontabilize.Domain.UserContext.Entities;
@@ -12,7 +11,7 @@ using Kontabilize.Shared.VOs;
 
 namespace Kontabilize.Domain.UserContext.Handlers
 {
-    public class UserHandler : Notifiable,
+    public class UserHandler :
         IHandler<SignInCommand>,
         IHandler<SignUpCommand>,
         IHandler<ResetPasswordCommand>
@@ -37,18 +36,16 @@ namespace Kontabilize.Domain.UserContext.Handlers
 
             if (user == null)
             {
-                AddNotification("user", "User not exist.");
-                return new CommandResult(false, "Error accessing user.", Notifications);
+                return new CommandResult(false, "User not exist.", null);
             }
 
             if (user.VerifyPassword(command.Password))
             {
                 return new CommandResult(true, "Login successfully",
-                    new SignInCommandResponse(_tokenService.GenerateToken(user)));
+                    new TokenResponseCommand(_tokenService.GenerateToken(user)));
             }
 
-            AddNotification("user", "User or password not exist.");
-            return new CommandResult(false, "Error accessing user.", Notifications);
+            return new CommandResult(false, "User or password not exist.", null);
         }
 
         public async Task<CommandResult> Handler(SignUpCommand command)
@@ -60,17 +57,18 @@ namespace Kontabilize.Domain.UserContext.Handlers
 
             if (await _userRepository.ExistEmail(command.Email))
             {
-                AddNotification("Email", "Email already registered.");
-                return new CommandResult(false, "Error created user.", Notifications);
+                return new CommandResult(false, "Email already registered.", null);
             }
 
             var email = new Email(command.Email);
-            var user = new User(email, ERole.CUSTOMER);
+            var user = new User(email, ERole.Customer);
             user.HasPassword(command.Password);
 
             await _userRepository.Save(user);
 
-            return new CommandResult(true, "Login successfully", user);
+            var token = _tokenService.GenerateToken(user);
+
+            return new CommandResult(true, "Login successfully", new TokenResponseCommand(token));
         }
 
         public async Task<CommandResult> Handler(ResetPasswordCommand command)
@@ -81,14 +79,9 @@ namespace Kontabilize.Domain.UserContext.Handlers
             }
 
             var user = await _userRepository.FindByEmail(command.Email);
-            if (user == null)
-            {
-                AddNotification("User", "user not found.");
-                return new CommandResult(false, "Error to find user", command.Notifications);
-            }
-
-
-            return new CommandResult(true, "Generety token.", new ResetPasswordCommandResponse(user.Id.ToString(), ""));
+            return user == null
+                ? new CommandResult(false, "user not found.", null)
+                : new CommandResult(true, "Generate token", new ResetPasswordCommandResponse(user.Id.ToString(), ""));
         }
     }
 }

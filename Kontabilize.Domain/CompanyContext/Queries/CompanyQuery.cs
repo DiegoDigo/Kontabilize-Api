@@ -9,7 +9,7 @@ namespace Kontabilize.Domain.CompanyContext.Queries
     {
         public static Expression<Func<Company, bool>> GetAll()
         {
-            return x => x.Actived;
+            return x => x.Active;
         }
 
         public static Expression<Func<Company, bool>> FindByEmail(string email)
@@ -30,12 +30,12 @@ namespace Kontabilize.Domain.CompanyContext.Queries
 
         public static Expression<Func<Company, bool>> GetAllNewCompany()
         {
-            return x => x.TypeCompany == ETypeCompany.NewCompany && x.Actived == false;
+            return x => x.TypeCompany == ETypeCompany.NewCompany && x.Active == false;
         }
 
         public static Expression<Func<Company, bool>> GetAllMigrationsCompany()
         {
-            return x => x.TypeCompany == ETypeCompany.MigrateCompany && x.Actived == false;
+            return x => x.TypeCompany == ETypeCompany.MigrateCompany && x.Active == false;
         }
 
         public static Expression<Func<Company, bool>> FindById(Guid id)

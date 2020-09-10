@@ -1,8 +1,11 @@
+db:
+	docker-compose up -d
+
 run:
 	dotnet run --project=Kontabilize.Api
 
 migrate:
-	cd Kontabilize.Infra && dotnet ef migrations add ${version} 
+	dotnet ef migrations add ${version} --project=Kontabilize.Infra
 
 update:
-	cd Kontabilize.Infra && dotnet ef database update
+	dotnet ef database update --project=Kontabilize.Infra

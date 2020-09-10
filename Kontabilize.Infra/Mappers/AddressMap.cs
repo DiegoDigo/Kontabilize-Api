@@ -14,6 +14,7 @@ namespace Kontabilize.Infra.Mappers
             builder.Property(x => x.City).HasColumnType("varchar(50)");
             builder.Property(x => x.Country).HasColumnType("varchar(50)");
             builder.Property(x => x.ZipCode).HasColumnType("varchar(8)");
+            builder.HasIndex(x => x.ZipCode);
         }
     }
 }

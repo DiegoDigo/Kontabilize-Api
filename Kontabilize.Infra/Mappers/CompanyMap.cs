@@ -19,6 +19,7 @@ namespace Kontabilize.Infra.Mappers
                 email =>
                 {
                     email.Property(x => x.Address).HasColumnName("Email").HasColumnType("varchar(160)").IsRequired();
+                    email.HasIndex(x => x.Address);
                 });
             builder.Property(x => x.CreateAt).IsRequired().HasColumnType("timestamp");
             builder.Property(x => x.CompanyTracking).IsRequired().HasColumnType("varchar(120)");
@@ -35,7 +36,7 @@ namespace Kontabilize.Infra.Mappers
             });
 
             builder.Property(x => x.TypeCompany).HasConversion<string>();
-            builder.Property(x => x.Actived).IsRequired().HasColumnType("boolean");
+            builder.Property(x => x.Active).IsRequired().HasColumnType("boolean");
         }
     }
 }

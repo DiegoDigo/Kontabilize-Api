@@ -25,11 +25,10 @@ namespace Kontabilize.Infra.Repositories
         }
 
         public async Task<User> GetUserById(Guid id) =>
-            await _context.Users.Where(UserQuery.FindById(id)).AsNoTracking().SingleOrDefaultAsync();
+            await _context.Users.SingleOrDefaultAsync(UserQuery.FindById(id));
 
-        public async Task<User> FindByEmail(string email) => 
-            await _context.Users.Where(UserQuery.FindByEmail(email))
-            .AsNoTracking().SingleOrDefaultAsync();
+        public async Task<User> FindByEmail(string email) =>
+            await _context.Users.SingleOrDefaultAsync(UserQuery.FindByEmail(email));
 
         public async Task<bool> ExistEmail(string email) =>
             await _context.Users.AnyAsync(UserQuery.FindByEmail(email));

@@ -24,7 +24,7 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
         {
             var response = await _userHandler.Handler(command);
-            return response.Success ? Ok(response) : StatusCode(406, response);
+            return response.Success ? Ok(response) : StatusCode(400, response);
         }
 
         [HttpPost("signUp")]
@@ -33,7 +33,7 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> SignUp([FromBody] SignUpCommand command)
         {
             var response = await _userHandler.Handler(command);
-            return response.Success ? StatusCode(201, response) : StatusCode(406, response);
+            return response.Success ? StatusCode(201, response) : StatusCode(400, response);
         }
         
         [HttpPost("reset")]
@@ -42,7 +42,7 @@ namespace Kontabilize.Api.Controller
         public async Task<IActionResult> Reset([FromBody] ResetPasswordCommand command)
         {
             var response = await _userHandler.Handler(command);
-            return response.Success ? StatusCode(200, response) : StatusCode(406, response);
+            return response.Success ? StatusCode(200, response) : StatusCode(400, response);
         }
     }
 }

@@ -1,10 +1,10 @@
 namespace Kontabilize.Domain.UserContext.Command.Output
 {
-    public class SignInCommandResponse
+    public class TokenResponseCommand
     {
         public string Token { get; private set; }
 
-        public SignInCommandResponse(string token)
+        public TokenResponseCommand(string token)
         {
             Token = token;
         }

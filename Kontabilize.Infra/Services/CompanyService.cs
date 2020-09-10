@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using Kontabilize.Domain.CompanyContext.Commands.Output;
 using Kontabilize.Domain.CompanyContext.Entities;
 using Kontabilize.Domain.CompanyContext.Repositories;
+using Kontabilize.Domain.CompanyContext.Services;
 using Kontabilize.Shared.Command;
 using Kontabilize.Shared.Command.Output;
 using Kontabilize.Shared.VOs;
 
-namespace Kontabilize.Domain.CompanyContext.Services
+namespace Kontabilize.Infra.Services
 {
-    public class CompanyService
+    public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
 
@@ -41,7 +42,7 @@ namespace Kontabilize.Domain.CompanyContext.Services
 
             var totalCompanies = await _companyRepository.CountNew();
             var response = new PagedList<NewCompanyCommandResponse>(result, totalCompanies, pageNumber, pageSize);
-            
+
             return new CommandResult(true, "List new companies", response);
         }
 
@@ -95,13 +96,13 @@ namespace Kontabilize.Domain.CompanyContext.Services
 
         public async Task<CommandResult> GetAllMigrationsCompany(int pageNumber, int pageSize)
         {
-            var companies =  await _companyRepository.GetAllMigrationCompany(pageNumber, pageSize);
-            
+            var companies = await _companyRepository.GetAllMigrationCompany(pageNumber, pageSize);
+
             if (!companies.Any())
             {
                 return new CommandResult(false, "not found", null);
             }
-            
+
             var result = companies.Select(company => new MigrateCompanyCommandResponse(
                 company.Id.ToString(),
                 company.Document.Cnpj,
@@ -117,9 +118,8 @@ namespace Kontabilize.Domain.CompanyContext.Services
             var response = new PagedList<MigrateCompanyCommandResponse>(result, totalCompanies, pageNumber, pageSize);
 
             return new CommandResult(true, "migrated companies", response);
-
         }
-        
+
         public async Task<CommandResult> GetMigrateCompanyByCnpj(string cpf)
         {
             var company = await _companyRepository.GetCompanyByCnpj(cpf);
@@ -175,53 +175,28 @@ namespace Kontabilize.Domain.CompanyContext.Services
             {
                 return false;
             }
+
             await _companyRepository.DeleteCompany(company);
             return true;
-
         }
-        
-        // public async Task<bool> CreateUserByCompany(Guid id)
-        // {
-        //     try
-        //     {
-        //         var company = await _companyRepository.GetById(id);
-        //         if (company == null)
-        //         {
-        //             return false;
-        //         }
-        //         var user = new User(company.Email, GetCpfOrCnpj(company.Document), ERole.CUSTOMER);
-        //
-        //         await _userRepository.Save(user);
-        //
-        //         var profile = new Profile(company.Name, null, company.Document, company.Email, company.Phone, null, null, user, new Address());
-        //
-        //         await _profileRepository.Save(profile);
-        //
-        //         await _companyRepository.Update(company.Accept(company));
-        //         
-        //         return true;
-        //     }
-        //     catch(Exception ex)
-        //     {
-        //         return false;
-        //     }
-        //
-        // }
 
-        private static string GetCpfOrCnpj(Document document)        {
+        
+
+        private static string GetCpfOrCnpj(Document document)
+        {
             return string.IsNullOrEmpty(document.Cpf) ? document.Cnpj : document.Cpf;
         }
 
-        
+
         public async Task<CommandResult> GetAll(int pageNumber, int pageSize)
         {
-            var companies =  await _companyRepository.GetAll(pageNumber, pageSize);
-            
+            var companies = await _companyRepository.GetAll(pageNumber, pageSize);
+
             if (!companies.Any())
             {
                 return new CommandResult(false, "not found", null);
             }
-            
+
             var result = companies.Select(company => new CompaniesCommandResponse(
                 company.Id.ToString(),
                 company.Document.Cnpj,
@@ -238,7 +213,6 @@ namespace Kontabilize.Domain.CompanyContext.Services
             var response = new PagedList<CompaniesCommandResponse>(result, totalCompanies, pageNumber, pageSize);
 
             return new CommandResult(true, "migrated companies", response);
-
         }
     }
 }
