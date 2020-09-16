@@ -14,7 +14,7 @@ namespace Kontabilize.Infra.Services
             var imageParams = new ImageUploadParams()
             {
                 File = new FileDescription(userId.ToString(), image),
-                PublicId = $"user/{userId.ToString()}",
+                PublicId = $"kontabilize/avatar/{userId.ToString()}",
                 Overwrite = true,
                 Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
             };
