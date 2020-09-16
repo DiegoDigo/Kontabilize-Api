@@ -18,11 +18,11 @@ namespace Kontabilize.Infra.Services
                 Overwrite = true,
                 Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
             };
-            var result = await init().UploadAsync(imageParams);
+            var result = await Init().UploadAsync(imageParams);
             return result.SecureUrl.AbsoluteUri;
         }
 
-        private Cloudinary init()
+        private static Cloudinary Init()
         {
             var myAccount = new Account
                 {ApiKey = "523226973273465", ApiSecret = "ikvZJlMbXCaNzyxlLrhBjp_0yWQ", Cloud = "dzcvxohec"};
